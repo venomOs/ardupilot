@@ -154,6 +154,7 @@ public:
         GPS_OK_FIX_3D_DGPS = 4,      ///< Receiving valid messages and 3D lock with differential improvements
         GPS_OK_FIX_3D_RTK_FLOAT = 5, ///< Receiving valid messages and 3D RTK Float
         GPS_OK_FIX_3D_RTK_FIXED = 6, ///< Receiving valid messages and 3D RTK Fixed
+        GPS_STATUS_MAX = 7
     };
 
     // GPS navigation engine settings. Not all GPS receivers support
@@ -312,6 +313,8 @@ public:
             return '5';
         case AP_GPS::GPS_OK_FIX_3D_RTK_FIXED:
             return '6';
+        case AP_GPS::GPS_STATUS_MAX:
+            return '7';
         }
         // should never reach here; compiler flags guarantees this.
         return '?';

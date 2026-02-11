@@ -1132,6 +1132,7 @@ void AP_DroneCAN::gnss_send_fix()
         pkt.sub_mode = UAVCAN_EQUIPMENT_GNSS_FIX2_SUB_MODE_RTK_FLOAT;
         break;
     case AP_GPS::GPS_Status::GPS_OK_FIX_3D_RTK_FIXED:
+    case AP_GPS::GPS_Status::GPS_STATUS_MAX:
         pkt.status = UAVCAN_EQUIPMENT_GNSS_FIX2_STATUS_3D_FIX;
         pkt.mode = UAVCAN_EQUIPMENT_GNSS_FIX2_MODE_RTK;
         pkt.sub_mode = UAVCAN_EQUIPMENT_GNSS_FIX2_SUB_MODE_RTK_FIXED;

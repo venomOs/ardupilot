@@ -72,6 +72,7 @@
 #endif
 #define GPS_BAUD_TIME_MS 1200
 #define GPS_TIMEOUT_MS 4000u
+#define MAVLINK_GPS_INSTANCE 2
 
 extern const AP_HAL::HAL &hal;
 
@@ -277,6 +278,10 @@ const AP_Param::GroupInfo AP_GPS::var_info[] = {
     // @Group: 2_
     // @Path: AP_GPS_Params.cpp
     AP_SUBGROUPINFO(params[1], "2_", 33, AP_GPS, AP_GPS::Params),
+
+    // @Group: 3_
+    // @Path: AP_GPS_Params.cpp
+    AP_SUBGROUPINFO(params[2], "3_", 34, AP_GPS, AP_GPS::Params),
 #endif
 
     AP_GROUPEND
@@ -1965,27 +1970,21 @@ bool AP_GPS::is_rtk_rover(uint8_t instance) const
  */
 bool AP_GPS::gps_yaw_deg(uint8_t instance, float &yaw_deg, float &accuracy_deg, uint32_t &time_ms) const
 {
-#if GPS_MAX_RECEIVERS > 1
-    if (is_rtk_base(instance) && is_rtk_rover(instance^1)) {
-        // return the yaw from the rover
-        instance ^= 1;
-    }
-#endif
-    if (!have_gps_yaw(instance)) {
+    if (!have_gps_yaw(MAVLINK_GPS_INSTANCE)) {
         return false;
     }
-    yaw_deg = state[instance].gps_yaw;
+    yaw_deg = state[MAVLINK_GPS_INSTANCE].gps_yaw;
 
     // get lagged timestamp
-    time_ms = state[instance].gps_yaw_time_ms;
+    time_ms = state[MAVLINK_GPS_INSTANCE].gps_yaw_time_ms;
     float lag_s;
     if (get_lag(instance, lag_s)) {
         uint32_t lag_ms = lag_s * 1000;
         time_ms -= lag_ms;
     }
 
-    if (state[instance].have_gps_yaw_accuracy) {
-        accuracy_deg = state[instance].gps_yaw_accuracy;
+    if (state[MAVLINK_GPS_INSTANCE].have_gps_yaw_accuracy) {
+        accuracy_deg = state[MAVLINK_GPS_INSTANCE].gps_yaw_accuracy;
     } else {
         // fall back to 10 degrees as a generic default
         accuracy_deg = 10;

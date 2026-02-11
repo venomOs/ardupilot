@@ -133,6 +133,7 @@ void AP_Periph_FW::can_gps_update(void)
             pkt.sub_mode = UAVCAN_EQUIPMENT_GNSS_FIX2_SUB_MODE_RTK_FLOAT;
             break;
         case AP_GPS::GPS_Status::GPS_OK_FIX_3D_RTK_FIXED:
+        case AP_GPS::GPS_Status::GPS_MAX_STATUS:
             pkt.status = UAVCAN_EQUIPMENT_GNSS_FIX2_STATUS_3D_FIX;
             pkt.mode = UAVCAN_EQUIPMENT_GNSS_FIX2_MODE_RTK;
             pkt.sub_mode = UAVCAN_EQUIPMENT_GNSS_FIX2_SUB_MODE_RTK_FIXED;
